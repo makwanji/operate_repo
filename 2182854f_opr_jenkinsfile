@@ -1,0 +1,56 @@
+pipeline {
+      agent any
+      stages {
+          stage('Opr_Stage_One_2182854f') {
+			  steps {
+				echo '2182854f Start of Operation Pipeline'
+			  }
+          }
+
+		  stage('Opr_Stage_Two_2182854f') {
+			  steps {
+				sh '''#!/bin/bash
+				 docker rmi 2182854f_websvr_image;
+				 docker commit 2182854f_websvr 2182854f_websvr_image;
+					 '''
+				echo '2182854f Backup websvr image created'
+			  }
+          }
+
+          stage('Opr_Stage_Three_2182854f') {
+			  steps {
+				input('2182854f Roll out new update to Prod Web?')
+			  }
+
+		  }
+          stage('Opr_Stage_Four_2182854f') {
+			  when {
+					not {
+						branch "New update NOT roll out"
+					}
+			  }
+			  steps {
+					 sh '''#!/bin/bash
+					 targets=2182854f_websvr;
+					 locate_script='/testdir/work/operate_repo/2182854f_script';
+					 docker cp $locate_script $targets://$locate_script;
+					 bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
+					 '''
+					 echo '2182854f Update Operation Completed'
+			  }
+          }
+
+		  stage('Opr_Stage_Five_2182854f') {
+			  steps {
+				echo '2182854f Production website is tested o.k.'
+			  }
+          }
+
+		  stage('Opr_Stage_Six_2182854f') {
+			  steps {
+				echo '2182854f Production website is updated successfully'
+			  }
+          }
+
+      }
+}
