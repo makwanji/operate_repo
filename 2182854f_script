@@ -7,4 +7,4 @@ puppet resource file /testdir ensure=directory
 puppet resource file /testdir/clone ensure=directory
 cd /testdir/clone
 git clone https://github.com/makwanji/operate_repo.git
-cp -p /testdir/clone/devops_repo/index.html /var/www/html
+cp -p /testdir/clone/operate_repo/index.html /var/www/html
